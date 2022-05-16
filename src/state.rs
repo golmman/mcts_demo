@@ -1,21 +1,23 @@
-use crate::common::BOARD_SIZE;
+use crate::common::{BOARD_WIDTH, BOARD_SIZE};
 use crate::movegen::Move;
 
-#[derive(Clone, PartialEq)]
+#[derive(Clone, Copy, PartialEq)]
 pub enum PieceType {
-    Black,
-    White,
+    Black = 0,
+    White = 1,
 }
 
+pub type Board = [Option<PieceType>; BOARD_SIZE];
+
 pub struct State {
-    pub board: Vec<Option<PieceType>>,
+    pub board: Board,
     pub moves: Vec<Move>,
 }
 
 impl State {
     pub fn new() -> Self {
         Self {
-            board: vec![None; BOARD_SIZE * BOARD_SIZE],
+            board: [None; BOARD_SIZE],
             moves: Vec::new(),
         }
     }
@@ -29,7 +31,7 @@ impl State {
     }
 
     pub fn get_piece_at(&self, x: usize, y: usize) -> Option<&PieceType> {
-        self.board[BOARD_SIZE * y + x].as_ref()
+        self.board[BOARD_WIDTH * y + x].as_ref()
     }
 
     pub fn make_move(&mut self, mov: Move) {
