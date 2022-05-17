@@ -1,3 +1,5 @@
+use crate::movegen::Move;
+
 use self::state::State;
 
 mod common;
@@ -10,9 +12,9 @@ mod state;
 fn main() {
     let mut state = State::new();
 
-    state.make_move(15);
-    state.make_move(16);
-    state.make_move(18);
+    state.make_move(Move(15));
+    state.make_move(Move(16));
+    state.make_move(Move(18));
 
     println!("{}", state);
 }

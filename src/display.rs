@@ -1,6 +1,7 @@
 use std::fmt::Display;
 
 use crate::common::BOARD_WIDTH;
+use crate::common::point2d::Point2D;
 use crate::state::{PieceType, State};
 
 impl Display for State {
@@ -9,7 +10,7 @@ impl Display for State {
         for y in 0..BOARD_WIDTH {
             for x in 0..BOARD_WIDTH {
                 board.push(' ');
-                match self.get_piece_at(x, y) {
+                match self.get_piece_at(&Point2D(x as i8, y as i8)) {
                     Some(PieceType::Black) => board.push('X'),
                     Some(PieceType::White) => board.push('O'),
                     None => board.push('·'),

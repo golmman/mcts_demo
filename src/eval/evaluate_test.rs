@@ -51,11 +51,11 @@ fn it_draws_overlines() {
 
     state.board = create_board(TEST_BOARD);
 
-    assert_eq!(state.evaluate(50), 1.0);
-    assert_eq!(state.evaluate(51), 1.0);
-    assert_eq!(state.evaluate(52), 1.0);
-    assert_eq!(state.evaluate(53), 1.0);
-    assert_eq!(state.evaluate(54), 1.0);
+    assert_eq!(state.evaluate(Move(50)), 1.0);
+    assert_eq!(state.evaluate(Move(51)), 1.0);
+    assert_eq!(state.evaluate(Move(52)), 1.0);
+    assert_eq!(state.evaluate(Move(53)), 1.0);
+    assert_eq!(state.evaluate(Move(54)), 1.0);
 }
 
 fn it_recognizes_horizontal_black_wins() {
@@ -63,9 +63,9 @@ fn it_recognizes_horizontal_black_wins() {
 
     state.board = create_board(TEST_BOARD);
 
-    assert_eq!(state.evaluate(50), 1.0);
-    assert_eq!(state.evaluate(51), 1.0);
-    assert_eq!(state.evaluate(52), 1.0);
-    assert_eq!(state.evaluate(53), 1.0);
-    assert_eq!(state.evaluate(54), 1.0);
+    assert_eq!(state.evaluate(Move(50)), 1.0);
+    assert_eq!(state.evaluate(Move(51)), 1.0);
+    assert_eq!(state.evaluate(Move(52)), 1.0);
+    assert_eq!(state.evaluate(Move(53)), 1.0);
+    assert_eq!(state.evaluate(Move(54)), 1.0);
 }

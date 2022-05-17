@@ -1,3 +1,4 @@
+use crate::common::point2d::Point2D;
 use crate::common::{BOARD_WIDTH, BOARD_SIZE};
 use crate::movegen::Move;
 
@@ -30,15 +31,15 @@ impl State {
         return false;
     }
 
-    pub fn get_piece_at(&self, x: usize, y: usize) -> Option<&PieceType> {
-        self.board[BOARD_WIDTH * y + x].as_ref()
+    pub fn get_piece_at(&self, p: &Point2D<i8>) -> Option<&PieceType> {
+        self.board[BOARD_WIDTH * p.get_y() as usize + p.get_x() as usize].as_ref()
     }
 
     pub fn make_move(&mut self, mov: Move) {
         if self.moves.len() % 2 == 0 {
-            self.board[mov as usize] = Some(PieceType::Black);
+            self.board[usize::from(mov)] = Some(PieceType::Black);
         } else {
-            self.board[mov as usize] = Some(PieceType::White);
+            self.board[usize::from(mov)] = Some(PieceType::White);
         }
 
         self.moves.push(mov);
