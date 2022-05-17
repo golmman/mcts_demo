@@ -25,7 +25,7 @@ impl From<Move> for Point2D<i8> {
 
 impl From<Point2D<i8>> for Move {
     fn from(p: Point2D<i8>) -> Self {
-        Self((BOARD_WIDTH as i8 * p.get_y() + p.get_x()) as u8)
+        Self(BOARD_WIDTH as u8 * p.get_y() as u8 + p.get_x() as u8)
     }
 }
 

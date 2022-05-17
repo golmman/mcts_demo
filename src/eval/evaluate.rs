@@ -1,6 +1,5 @@
 use crate::common::is_valid_coord;
 use crate::common::point2d::Point2D;
-use crate::movegen::Move;
 use crate::state::{PieceType, State};
 
 use super::Eval;
@@ -10,11 +9,19 @@ use crate::common::{
 };
 
 impl Eval for State {
-    fn evaluate(&self, last_move: Move) -> f32 {
+    fn evaluate(&self) -> f32 {
+        if self.moves.len() < 9 {
+            return 0.0;
+        }
+
+        let last_move = self.moves[self.moves.len() - 1];
+
+        // note that when it is blacks turn white has made the last move
+        // so we evaluate for white in this case
         let (piece_type, score) = if self.is_blacks_turn() {
-            (PieceType::Black, 1.0)
-        } else {
             (PieceType::White, -1.0)
+        } else {
+            (PieceType::Black, 1.0)
         };
 
         let start = Point2D::from(last_move);

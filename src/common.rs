@@ -16,11 +16,11 @@ pub const DIRECTION_SW: Point2D<i8> = Point2D(-1, 1);
 pub const DIRECTION_NW: Point2D<i8> = Point2D(-1, -1);
 
 pub fn is_valid_coord(p: &Point2D<i8>) -> bool {
-    if p.get_x() <= 0 || p.get_x() > BOARD_WIDTH as i8 {
+    if p.get_x() < 0 || p.get_x() >= BOARD_WIDTH as i8 {
         return false;
     }
 
-    if p.get_y() <= 0 || p.get_y() > BOARD_HEIGHT as i8 {
+    if p.get_y() < 0 || p.get_y() >= BOARD_HEIGHT as i8 {
         return false;
     }
 
