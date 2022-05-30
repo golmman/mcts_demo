@@ -11,8 +11,8 @@ impl Display for State {
             for x in 0..BOARD_WIDTH {
                 board.push(' ');
                 match self.get_piece_at(&Point2D(x as i8, y as i8)) {
-                    Some(PieceType::Black) => board.push('X'),
-                    Some(PieceType::White) => board.push('O'),
+                    Some(PieceType::Player1) => board.push('X'),
+                    Some(PieceType::Player2) => board.push('O'),
                     None => board.push('·'),
                 }
             }

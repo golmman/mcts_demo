@@ -19,9 +19,9 @@ impl Eval for State {
         // note that when it is blacks turn white has made the last move
         // so we evaluate for white in this case
         let (piece_type, score) = if self.is_blacks_turn() {
-            (PieceType::White, -1.0)
+            (PieceType::Player2, -1.0)
         } else {
-            (PieceType::Black, 1.0)
+            (PieceType::Player1, 1.0)
         };
 
         let start = Point2D::from(last_move);

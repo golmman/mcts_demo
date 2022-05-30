@@ -1,11 +1,18 @@
 use crate::common::point2d::Point2D;
+use crate::common::tree::Tree;
 use crate::common::{BOARD_WIDTH, BOARD_SIZE};
 use crate::movegen::Move;
 
 #[derive(Clone, Copy, PartialEq)]
 pub enum PieceType {
-    Black = 0,
-    White = 1,
+    Player1 = 0,
+    Player2 = 1,
+}
+
+#[derive(Default)]
+pub struct PlayoutData {
+    wins: i64,
+    total: i64,
 }
 
 pub type Board = [Option<PieceType>; BOARD_SIZE];
@@ -13,6 +20,7 @@ pub type Board = [Option<PieceType>; BOARD_SIZE];
 pub struct State {
     pub board: Board,
     pub moves: Vec<Move>,
+    pub tree: Tree<PlayoutData>,
 }
 
 impl State {
@@ -20,6 +28,7 @@ impl State {
         Self {
             board: [None; BOARD_SIZE],
             moves: Vec::new(),
+            tree: Tree::new(),
         }
     }
 
@@ -37,9 +46,9 @@ impl State {
 
     pub fn make_move(&mut self, mov: Move) {
         if self.moves.len() % 2 == 0 {
-            self.board[usize::from(mov)] = Some(PieceType::Black);
+            self.board[usize::from(mov)] = Some(PieceType::Player1);
         } else {
-            self.board[usize::from(mov)] = Some(PieceType::White);
+            self.board[usize::from(mov)] = Some(PieceType::Player2);
         }
 
         self.moves.push(mov);

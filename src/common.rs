@@ -1,6 +1,10 @@
 use self::point2d::Point2D;
 
 pub mod point2d;
+pub mod tree;
+
+#[cfg(test)]
+mod tree_test;
 
 pub const BOARD_WIDTH: usize = 15;
 pub const BOARD_HEIGHT: usize = 15;
