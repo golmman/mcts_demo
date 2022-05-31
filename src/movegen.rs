@@ -2,7 +2,7 @@ use crate::common::point2d::Point2D;
 use crate::common::BOARD_WIDTH;
 use crate::state::State;
 
-#[derive(Copy, Clone, PartialEq)]
+#[derive(Copy, Clone, Debug, Default, PartialEq)]
 pub struct Move(pub u8);
 
 impl From<usize> for Move {
@@ -39,7 +39,7 @@ impl Move {
     }
 }
 
-trait Movegen {
+pub trait Movegen {
     fn generate_moves(&self) -> Vec<Move>;
 }
 
@@ -49,7 +49,6 @@ impl Movegen for State {
 
         for i in 0..BOARD_WIDTH * BOARD_WIDTH {
             if self.board[i].is_none() {
-                //moves.push(Move(i as u8));
                 moves.push(Move::from(i));
             }
         }

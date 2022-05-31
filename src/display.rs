@@ -1,7 +1,7 @@
 use std::fmt::Display;
 
-use crate::common::BOARD_WIDTH;
 use crate::common::point2d::Point2D;
+use crate::common::BOARD_WIDTH;
 use crate::state::{PieceType, State};
 
 impl Display for State {

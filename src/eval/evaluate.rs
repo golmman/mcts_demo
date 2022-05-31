@@ -35,8 +35,8 @@ impl Eval for State {
 
         for direction in directions {
             if 5 == 1
-                + count_direction(&self, &piece_type, &start, direction.0)
-                + count_direction(&self, &piece_type, &start, direction.1)
+                + self.count_direction(&piece_type, &start, direction.0)
+                + self.count_direction(&piece_type, &start, direction.1)
             {
                 return score;
             }
@@ -46,28 +46,30 @@ impl Eval for State {
     }
 }
 
-fn count_direction(
-    state: &State,
-    piece_type: &PieceType,
-    start: &Point2D<i8>,
-    direction: Point2D<i8>,
-) -> u8 {
-    let mut count = 0;
-    let mut pos = start.clone();
+impl State {
+    fn count_direction(
+        &self,
+        piece_type: &PieceType,
+        start: &Point2D<i8>,
+        direction: Point2D<i8>,
+    ) -> u8 {
+        let mut count = 0;
+        let mut pos = start.clone();
 
-    loop {
-        pos += direction.clone();
+        loop {
+            pos += direction.clone();
 
-        if !is_valid_coord(&pos) {
-            break;
+            if !is_valid_coord(&pos) {
+                break;
+            }
+
+            if self.get_piece_at(&pos) != Some(piece_type) {
+                break;
+            }
+
+            count += 1;
         }
 
-        if state.get_piece_at(&pos) != Some(piece_type) {
-            break;
-        }
-
-        count += 1;
+        count
     }
-
-    count
 }

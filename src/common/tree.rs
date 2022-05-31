@@ -1,10 +1,12 @@
 use std::fmt::Debug;
 use std::ops::Range;
 
+pub type NodeIndex = usize;
+
 struct Node<T> {
-    parent_index: Option<usize>,
-    self_index: usize,
-    children_index_range: Range<usize>,
+    parent_index: Option<NodeIndex>,
+    self_index: NodeIndex,
+    children_index_range: Range<NodeIndex>,
     pub data: T,
 }
 
@@ -24,23 +26,23 @@ impl<T: Default> Tree<T> {
         }
     }
 
-    pub fn root_index(&mut self) -> usize {
+    pub fn root_index(&mut self) -> NodeIndex {
         0
     }
 
-    pub fn set_data(&mut self, node_index: usize, data: T) {
+    pub fn set_data(&mut self, node_index: NodeIndex, data: T) {
         self.nodes[node_index].data = data;
     }
 
-    pub fn get_data(&self, node_index: usize) -> &T {
+    pub fn get_data(&self, node_index: NodeIndex) -> &T {
         &self.nodes[node_index].data
     }
 
-    pub fn range(&self, node_index: usize) -> Range<usize> {
+    pub fn children(&self, node_index: NodeIndex) -> Range<NodeIndex> {
         self.nodes[node_index].children_index_range.clone()
     }
 
-    pub fn add_children(&mut self, node_index: usize, children_data: Vec<T>) {
+    pub fn add_children(&mut self, node_index: NodeIndex, children_data: Vec<T>) {
         debug_assert!(
             self.nodes[node_index].children_index_range.is_empty(),
             "can't add children to a node which already has some"
@@ -57,7 +59,7 @@ impl<T: Default> Tree<T> {
                 parent_index: Some(self.nodes[node_index].self_index),
                 self_index,
                 children_index_range: Range { start: 0, end: 0 },
-                data: T::default(),
+                data: child_data,
             });
             self_index += 1;
         }
@@ -74,7 +76,7 @@ impl<T: Default + Debug> Debug for Tree<T> {
 fn add_children_strings<T: Default + Debug>(
     mut s: String,
     tree: &Tree<T>,
-    index: usize,
+    index: NodeIndex,
     depth: usize,
 ) -> String {
     s.push_str("·".repeat(depth).as_str());
@@ -83,7 +85,7 @@ fn add_children_strings<T: Default + Debug>(
     s.push_str(format!("{:?}", tree.get_data(index)).as_str());
     s.push('\n');
 
-    for child_index in tree.range(index) {
+    for child_index in tree.children(index) {
         s = add_children_strings::<T>(s, tree, child_index, depth + 1);
     }
 

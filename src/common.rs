@@ -1,6 +1,7 @@
 use self::point2d::Point2D;
 
 pub mod point2d;
+pub mod rand;
 pub mod tree;
 
 #[cfg(test)]

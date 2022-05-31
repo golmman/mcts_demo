@@ -6,7 +6,6 @@ struct TestStruct {
     b: i32,
 }
 
-
 #[test]
 fn it_zzz() {
     println!("zzz");
@@ -26,13 +25,7 @@ fn it_zzz() {
         ],
     );
 
-    tree.add_children(
-        3,
-        vec![
-            TestStruct::default(),
-            TestStruct::default(),
-        ],
-    );
+    tree.add_children(3, vec![TestStruct::default(), TestStruct::default()]);
 
     tree.add_children(
         7,
@@ -43,7 +36,7 @@ fn it_zzz() {
         ],
     );
 
-    for a in tree.range(root_index) {
+    for a in tree.children(root_index) {
         println!("{}", a);
 
         if a == 5 {
