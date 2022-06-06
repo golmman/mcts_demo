@@ -2,7 +2,7 @@ use crate::common::point2d::Point2D;
 use crate::common::BOARD_WIDTH;
 use crate::state::State;
 
-#[derive(Copy, Clone, Debug, Default, PartialEq)]
+#[derive(Copy, Clone, Debug, Default, Eq, PartialEq)]
 pub struct Move(pub u8);
 
 impl From<usize> for Move {

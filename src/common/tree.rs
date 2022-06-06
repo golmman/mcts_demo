@@ -1,17 +1,19 @@
 use std::fmt::Debug;
 use std::ops::Range;
 
+use crate::state::PlayoutData;
+
 pub type NodeIndex = usize;
 
-struct Node<T> {
+pub struct Node<T> { ///////
     parent_index: Option<NodeIndex>,
-    self_index: NodeIndex,
+    pub self_index: NodeIndex, //////
     children_index_range: Range<NodeIndex>,
-    pub data: T,
+    pub data: T, /////
 }
 
 pub struct Tree<T> {
-    nodes: Vec<Node<T>>,
+    pub nodes: Vec<Node<T>>, /////
 }
 
 impl<T: Default> Tree<T> {
@@ -36,6 +38,14 @@ impl<T: Default> Tree<T> {
 
     pub fn get_data(&self, node_index: NodeIndex) -> &T {
         &self.nodes[node_index].data
+    }
+
+    pub fn get_data_mut(&mut self, node_index: NodeIndex) -> &mut T {
+        &mut self.nodes[node_index].data
+    }
+
+    pub fn parent(&self, node_index: NodeIndex) -> Option<NodeIndex> {
+        self.nodes[node_index].parent_index
     }
 
     pub fn children(&self, node_index: NodeIndex) -> Range<NodeIndex> {
@@ -66,28 +76,28 @@ impl<T: Default> Tree<T> {
     }
 }
 
-impl<T: Default + Debug> Debug for Tree<T> {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let s = add_children_strings::<T>(String::new(), self, 0, 0);
-        write!(f, "{}", s)
-    }
-}
-
-fn add_children_strings<T: Default + Debug>(
-    mut s: String,
-    tree: &Tree<T>,
-    index: NodeIndex,
-    depth: usize,
-) -> String {
-    s.push_str("·".repeat(depth).as_str());
-    s.push_str(tree.nodes[index].self_index.to_string().as_str());
-    s.push_str(": ");
-    s.push_str(format!("{:?}", tree.get_data(index)).as_str());
-    s.push('\n');
-
-    for child_index in tree.children(index) {
-        s = add_children_strings::<T>(s, tree, child_index, depth + 1);
-    }
-
-    s
-}
+//impl<T: Default + Debug> Debug for Tree<T> {
+//    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+//        let s = add_children_strings::<T>(String::new(), self, 0, 0);
+//        write!(f, "{}", s)
+//    }
+//}
+//
+//fn add_children_strings<T: Default + Debug>(
+//    mut s: String,
+//    tree: &Tree<T>,
+//    index: NodeIndex,
+//    depth: usize,
+//) -> String {
+//    s.push_str("·".repeat(depth).as_str());
+//    s.push_str(tree.nodes[index].self_index.to_string().as_str());
+//    s.push_str(": ");
+//    s.push_str(format!("{:?}", tree.get_data(index)).as_str());
+//    s.push('\n');
+//
+//    for child_index in tree.children(index) {
+//        s = add_children_strings::<T>(s, tree, child_index, depth + 1);
+//    }
+//
+//    s
+//}

@@ -2,26 +2,26 @@ use crate::common::is_valid_coord;
 use crate::common::point2d::Point2D;
 use crate::state::{PieceType, State};
 
-use super::Eval;
+use super::{Eval, Evaluation};
 use crate::common::{
     DIRECTION_E, DIRECTION_N, DIRECTION_NE, DIRECTION_NW, DIRECTION_S, DIRECTION_SE, DIRECTION_SW,
     DIRECTION_W,
 };
 
 impl Eval for State {
-    fn evaluate(&self) -> f32 {
+    fn evaluate(&self) -> Evaluation {
         if self.moves.len() < 9 {
-            return 0.0;
+            return Evaluation::Draw;
         }
 
         let last_move = self.moves[self.moves.len() - 1];
 
-        // note that when it is blacks turn white has made the last move
-        // so we evaluate for white in this case
-        let (piece_type, score) = if self.is_blacks_turn() {
-            (PieceType::Player2, -1.0)
+        // note that when it is player1's turn player2 has made the last move
+        // so we evaluate for player2 in this case
+        let (piece_type, evaluation) = if self.is_player1_turn() {
+            (PieceType::Player2, Evaluation::WinPlayer2)
         } else {
-            (PieceType::Player1, 1.0)
+            (PieceType::Player1, Evaluation::WinPlayer1)
         };
 
         let start = Point2D::from(last_move);
@@ -38,11 +38,11 @@ impl Eval for State {
                 + self.count_direction(&piece_type, &start, direction.0)
                 + self.count_direction(&piece_type, &start, direction.1)
             {
-                return score;
+                return evaluation;
             }
         }
 
-        0.0
+        Evaluation::Draw
     }
 }
 
